@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from 'react'
 
 export const InitWindowSettings = () => {
   const inputAmmountRef = useRef<HTMLInputElement>(null)
@@ -17,11 +17,11 @@ export const InitWindowSettings = () => {
     }
   }
 
-  return(
+  return (
     <>
-    <input type="number" ref={inputAmmountRef} placeholder='1' readOnly/>
-    <button onClick={increment}>+</button>
-    <button onClick={decrement}>-</button>
+      <input type='number' ref={inputAmmountRef} placeholder='1' readOnly />
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
     </>
   )
 }
