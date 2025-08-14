@@ -2,9 +2,10 @@ import './App.css'
 import { InitWindowSettings } from './startPage'
 
 export function App() {
-return(
-  <>
-  <InitWindowSettings />
-  </>
-)}
-
+  // Test comment for prettier
+  return (
+    <>
+      <InitWindowSettings />
+    </>
+  )
+}
