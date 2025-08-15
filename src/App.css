@@ -48,6 +48,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Убирает стрелки в Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
