@@ -1,12 +1,11 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { AmmountQuestions } from './ammountQuestions'
 import { Categories } from './categories'
 
 export const InitWindowSettings = () => {
   return (
     <>
-      <FlexBox flexDirection='column'>
-        <Categories />
-      </FlexBox>
+      <AmmountQuestions />
+      <Categories />
     </>
   )
 }

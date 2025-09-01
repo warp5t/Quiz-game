@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 
 interface INameId {
   id: number
@@ -44,7 +45,7 @@ export const Categories = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <>
+    <FlexBox flexDirection='column'>
       <h3>Category</h3>
       <select ref={selectRef} defaultValue=''>
         <option value=''>Choose the category</option>
@@ -54,6 +55,6 @@ export const Categories = () => {
           </option>
         ))}
       </select>
-    </>
+    </FlexBox>
   )
 }
