@@ -16,7 +16,7 @@ export const AmmountQuestions = () => {
     <FlexBox flexDirection='column'>
       <h3>Number of Questions</h3>
       <div>{ammount}</div>
-      <FlexBox gap='15px' justifyContent='center'>
+      <FlexBox gap='16px' justifyContent='center'>
         <button onClick={decremement}>Decrement</button>
         <button onClick={increment}>Increment</button>
       </FlexBox>

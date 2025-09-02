@@ -1,1 +1,1 @@
-export { InitWindowSettings } from './components/initWindowSetting'
+export { InitWindowSettings } from './initWindowSetting'
