@@ -1,10 +1,12 @@
 import './App.css'
-import { StartScreen } from './startScreen/startScreen'
+import { MainScreen } from './mainScreen/mainScreen'
+// import { StartScreen } from './startScreen/startScreen'
 
 export function App() {
   return (
     <>
-      <StartScreen />
+      {/* <StartScreen /> */}
+      <MainScreen />
     </>
   )
 }
