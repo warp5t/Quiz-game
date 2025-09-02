@@ -1,10 +1,10 @@
 import './App.css'
-import { InitWindowSettings } from './startPage'
+import { StartScreen } from './startScreen/startScreen'
 
 export function App() {
   return (
     <>
-      <InitWindowSettings />
+      <StartScreen />
     </>
   )
 }

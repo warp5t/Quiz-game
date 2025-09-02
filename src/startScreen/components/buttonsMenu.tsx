@@ -7,7 +7,7 @@ const StyledFlexBox = styled(FlexBox)`
 export const ButtonsMenu = () => {
   return (
     <>
-      <StyledFlexBox gap='16px' justifyContent='center' className=''>
+      <StyledFlexBox gap='16px' justifyContent='center'>
         <button>Start quiz</button>
         <button>See my stats</button>
       </StyledFlexBox>

@@ -4,7 +4,7 @@ import { Difficulty } from './components/difficulty'
 import { Time } from './components/time'
 import { ButtonsMenu } from './components/buttonsMenu'
 
-export const InitWindowSettings = () => {
+export const StartScreen = () => {
   return (
     <>
       <AmmountQuestions />

@@ -1,1 +1,0 @@
-export { InitWindowSettings } from './initWindowSetting'
