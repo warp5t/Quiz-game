@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import store from '../store/store'
 import { App } from '../App'
 import { MainScreen } from '../mainScreen/mainScreen'
+import { StartScreen } from '../startScreen/startScreen'
 
 // Создаем роутер с существующими компонентами
 const router = createBrowserRouter([
@@ -24,6 +25,16 @@ const router = createBrowserRouter([
       <StrictMode>
         <Provider store={store}>
           <MainScreen />
+        </Provider>
+      </StrictMode>
+    )
+  },
+  {
+    path: '/start',
+    element: (
+      <StrictMode>
+        <Provider store={store}>
+          <StartScreen />
         </Provider>
       </StrictMode>
     )

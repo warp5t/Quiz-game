@@ -1,5 +1,9 @@
+import { createPortal } from 'react-dom'
 import { FlexBox } from '../reusalbleComponents/FlexBox/FlexBox'
 import { Timer } from './components/timer'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { StyledDivModal } from '../reusalbleComponents/Modal/Modal.styles'
 
 const arrQuestion = [
   'What was the name of the German offensive operation in October 1941 to take Moscow before winter?',
@@ -16,7 +20,40 @@ const typeQuestion = 'boolean'
 
 export const arrAnswer = ['a', 'b', 'c', 'd']
 
+interface ModalQuitProps {
+  onCancel: () => void
+  onConfirm: () => void
+}
+
+const ModalQuit = ({ onCancel, onConfirm }: ModalQuitProps) => {
+  return (
+    <StyledDivModal>
+      <FlexBox>
+        <button onClick={onConfirm}>Confirm</button>
+        <button onClick={onCancel}>Cancel</button>
+      </FlexBox>
+    </StyledDivModal>
+  )
+}
+
 export const MainScreen = () => {
+  const modalRoot = document.getElementById('modalQiut')
+  const [portal, setPortal] = useState(false)
+
+  const navigate = useNavigate()
+
+  const handleEndQuizClick = () => {
+    setPortal(!portal)
+  }
+
+  const handleConfirmQuit = () => {
+    navigate('/start')
+  }
+
+  const handleCancelQuit = () => {
+    setPortal(false)
+  }
+
   return (
     <>
       <FlexBox flexDirection='column'>
@@ -39,6 +76,10 @@ export const MainScreen = () => {
           </FlexBox>
         )}
         <Timer />
+        <button onClick={handleEndQuizClick}>End quiz</button>
+        {portal &&
+          modalRoot &&
+          createPortal(<ModalQuit onConfirm={handleConfirmQuit} onCancel={handleCancelQuit} />, modalRoot)}
       </FlexBox>
     </>
   )
