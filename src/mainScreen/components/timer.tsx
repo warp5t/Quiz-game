@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 
 export const Timer = ({ initialMinutes = 5 }) => {

@@ -54,10 +54,12 @@ export const MainScreen = () => {
     setPortal(false)
   }
 
+  const randIndx = Math.trunc(Math.random() * arrQuestion.length)
+
   return (
     <>
       <FlexBox flexDirection='column'>
-        <p>{arrQuestion[2]}</p>
+        <p>{arrQuestion[randIndx]}</p>
         <h5>Progress</h5>
         <p>
           Question {currentQuestion} of {ammaountQuestion}

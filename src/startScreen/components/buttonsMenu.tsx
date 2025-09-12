@@ -11,12 +11,15 @@ export const ButtonsMenu = () => {
   const handleStart = () => {
     navigate('/main')
   }
+  const handleStat = () => {
+    navigate('/stat')
+  }
 
   return (
     <>
       <StyledFlexBox gap='16px' justifyContent='center'>
         <button onClick={handleStart}>Start quiz</button>
-        <button>See my stats</button>
+        <button onClick={handleStat}>See my stats</button>
       </StyledFlexBox>
     </>
   )

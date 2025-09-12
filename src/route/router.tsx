@@ -6,8 +6,8 @@ import store from '../store/store'
 import { App } from '../App'
 import { MainScreen } from '../mainScreen/mainScreen'
 import { StartScreen } from '../startScreen/startScreen'
+import { StatScreen } from '../statisticScreen/statisticScreen'
 
-// Создаем роутер с существующими компонентами
 const router = createBrowserRouter([
   {
     path: '/',
@@ -38,10 +38,19 @@ const router = createBrowserRouter([
         </Provider>
       </StrictMode>
     )
+  },
+  {
+    path: '/stat',
+    element: (
+      <StrictMode>
+        <Provider store={store}>
+          <StatScreen />
+        </Provider>
+      </StrictMode>
+    )
   }
 ])
 
-// Функция для инициализации роутера
 export const initializeRouter = () => {
   const rootElement = document.getElementById('root')
   if (!rootElement) {

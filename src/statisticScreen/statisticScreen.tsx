@@ -1,1 +1,3 @@
-export const statScreen = () => {}
+export const StatScreen = () => {
+  return <>Statistic</>
+}

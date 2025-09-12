@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { FlexBox } from '../reusalbleComponents/FlexBox/FlexBox'
 
 const correctAnswers = 1
@@ -6,6 +7,16 @@ const minutes = 2
 const seconds = 13
 
 export const ResultScreen = () => {
+  const navigate = useNavigate()
+
+  const handleStart = () => {
+    navigate('/start')
+  }
+
+  const handleRestart = () => {
+    navigate('/main')
+  }
+
   return (
     <FlexBox justifyContent='center' flexDirection='column'>
       <h4>Thank you for completing this quiz. Here are your results</h4>
@@ -20,8 +31,8 @@ export const ResultScreen = () => {
         It took {minutes} minutes and {seconds} seconds to answer all the questions
       </p>
       <FlexBox gap='16px' justifyContent='center'>
-        <button>Restart</button>
-        <button>Choose another quiz</button>
+        <button onClick={handleRestart}>Restart quiz</button>
+        <button onClick={handleStart}>Choose another quiz</button>
       </FlexBox>
     </FlexBox>
   )
