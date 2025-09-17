@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { useSelector } from 'react-redux'
+import type { RootState } from '../../store/store'
 
-export const Timer = ({ initialMinutes = 5 }) => {
+export const Timer = () => {
+  const initialMinutes = useSelector((state: RootState) => state.quiz.config.time)
   const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
   const [isRunning, setIsRunning] = useState(false)
 

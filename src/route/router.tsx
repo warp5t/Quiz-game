@@ -1,14 +1,13 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { createRoot } from 'react-dom/client'
+import { createBrowserRouter } from 'react-router-dom'
 import { StrictMode } from 'react'
 import { Provider } from 'react-redux'
-import store from '../store/store'
+import { store } from '../store/store'
 import { App } from '../App'
 import { MainScreen } from '../mainScreen/mainScreen'
 import { StartScreen } from '../startScreen/startScreen'
 import { StatScreen } from '../statisticScreen/statisticScreen'
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: (
@@ -50,13 +49,3 @@ const router = createBrowserRouter([
     )
   }
 ])
-
-export const initializeRouter = () => {
-  const rootElement = document.getElementById('root')
-  if (!rootElement) {
-    throw new Error('Root element not found')
-  }
-
-  const root = createRoot(rootElement)
-  root.render(<RouterProvider router={router} />)
-}
