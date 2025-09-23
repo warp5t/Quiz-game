@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import { FlexBox } from '../reusalbleComponents/FlexBox/FlexBox'
 import { Timer } from './components/timer'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { AppDispatch, RootState } from '../store/store'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,7 +11,6 @@ import { ModalQuit } from './components/modalQuit'
 import { QuizCompleted } from './components/quizCompleted'
 import { QuestionDisplay } from './components/questionDisplay'
 import { ConfettiDemo } from './components/confetti'
-import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
 
 const NoQuestions = () => <p>No questions available</p>
 
@@ -70,25 +69,15 @@ export const MainScreen = () => {
     setPortal(false)
   }
 
-  const handleAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const selectedAnswer = event.currentTarget.value
-    const correctAnswer = quizResponse?.results[currentQuestion].correct_answer
-
-    const isCorrect = selectedAnswer.toLowerCase() === correctAnswer?.toLowerCase()
-
-    if (isCorrect) {
-      setConfetti(true)
-
-      if (currentQuestion + 1 >= ammountQuestions) {
-        setQuizCompleted(true)
-      } else {
-        setCurrentQuestion((prev) => prev + 1)
-      }
+  const handleAnswer = () => {
+    if (currentQuestion + 1 >= ammountQuestions) {
+      setQuizCompleted(true)
     } else {
-      wrongAnswerAnimation()
       setCurrentQuestion((prev) => prev + 1)
+      setConfetti(true)
     }
   }
+
   const handleStartNewQuiz = () => {
     navigate('/start')
   }
@@ -144,7 +133,7 @@ export const MainScreen = () => {
       {portal &&
         modalRoot &&
         createPortal(<ModalQuit onConfirm={handleConfirmQuit} onCancel={handleCancelQuit} />, modalRoot)}
-      <ConfettiDemo isRun={isConfetti} setConfetti={setConfetti} />
+      <ConfettiDemo isRun={isConfetti} />
     </FlexBox>
   )
 }
