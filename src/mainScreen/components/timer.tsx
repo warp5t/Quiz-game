@@ -12,7 +12,6 @@ interface TimerProps {
 export const Timer = ({ isEnd, setEnd }: TimerProps) => {
   const initialMinutes = useSelector((state: RootState) => state.quiz.config.time)
   const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
-  // const [isRunning, setIsRunning] = useState(true)
   const dispatch = useDispatch<AppDispatch>()
 
   const formatTime = useCallback((seconds: number) => {
@@ -27,7 +26,7 @@ export const Timer = ({ isEnd, setEnd }: TimerProps) => {
     interval = window.setInterval(() => {
       setTimeLeft((currentTime) => {
         const newTime = currentTime - 1
-        console.log('timeLeft: ', newTime) // Теперь будет показывать актуальное время
+        console.log('timeLeft: ', newTime)
         if (isEnd) {
           dispatch(setRemainTime(timeLeft))
           if (interval) clearInterval(interval)
@@ -46,28 +45,6 @@ export const Timer = ({ isEnd, setEnd }: TimerProps) => {
       if (interval) clearInterval(interval)
     }
   }, [isEnd, dispatch, setEnd])
-
-  // useEffect(() => {
-  //   let interval: undefined | number = undefined
-
-  //   interval = window.setInterval(() => {
-  //   if (!isEnd && timeLeft > 0) {
-  //       setTimeLeft((timeLeft) => timeLeft - 1)
-  //       console.log('timeLeft: ', timeLeft)
-  //     }
-  //     if (timeLeft <= 0) {
-  //       setEnd(true)
-  //       clearInterval(interval)
-  //     }
-  //     if (isEnd) {
-  //       dispatch(setRemainTime(timeLeft))
-  //     }
-  //   }, 1000)
-
-  //   return () => {
-  //     if (interval) clearInterval(interval)
-  //   }
-  // }, [isEnd, dispatch, setEnd])
 
   return (
     <FlexBox justifyContent='center'>

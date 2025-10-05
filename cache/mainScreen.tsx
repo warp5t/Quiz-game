@@ -12,8 +12,9 @@ import { QuizCompleted } from './components/quizCompleted'
 import { QuestionDisplay } from './components/questionDisplay'
 import { ConfettiDemo } from './components/confetti'
 import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
-import { addAnswer } from '../slicers/statistic/quizStatistic'
+import { addAnswer, resetStatistic } from '../slicers/statistic/quizStatistic'
 import styles from './mainScreen.module.css'
+import { resetConfig } from '../slicers/quizSetting/quizSettingSlice'
 
 const NoQuestions = () => <p>No questions available</p>
 
@@ -34,7 +35,6 @@ export const MainScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [isQuizCompleted, setQuizCompleted] = useState(false)
   const [isConfetti, setConfetti] = useState(false)
-  const [isRestart, setRestart] = useState(false)
 
   const ammountQuestions = useSelector((state: RootState) => state.quiz.config.amount)
   const category = useSelector((state: RootState) => state.quiz.config.category)
@@ -65,24 +65,20 @@ export const MainScreen = () => {
 
   useEffect(() => {
     qiuzFetch()
-  }, [dispatch, ammountQuestions, difficult, category, isRestart])
+  }, [dispatch, ammountQuestions, difficult, category])
 
   const handleEndQuizClick = () => {
     setPortal(!portal)
   }
 
   const handleConfirmQuit = () => {
+    // dispatch(resetStatistic())
+    dispatch(resetConfig())
     navigate('/start')
   }
 
   const handleCancelQuit = () => {
     setPortal(false)
-  }
-
-  const handleRestartQuiz = () => {
-    // navigate('/start')
-    // qiuzFetch()
-    setRestart(!isRestart)
   }
 
   const handleAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -125,7 +121,13 @@ export const MainScreen = () => {
   }
 
   const handleStartNewQuiz = () => {
-    navigate('/start')
+    setCurrentQuestion(0)
+    setQuizCompleted(false)
+    setConfetti(false)
+    hasFetchedRef.current = false
+    dispatch(resetStatistic())
+    dispatch(resetConfig())
+    qiuzFetch()
   }
 
   if (quizLoading) {
@@ -156,7 +158,6 @@ export const MainScreen = () => {
 
   let content
   if (isQuizCompleted) {
-    handleEndQuizClick()
     content = (
       <QuizCompleted
         onStartNewQuiz={handleStartNewQuiz}
@@ -174,8 +175,8 @@ export const MainScreen = () => {
       {!isQuizCompleted && isQuestionAvailable && <Progress current={currentQuestion + 1} total={ammountQuestions} />}
 
       {content}
-      <Timer />
-      <button onClick={handleEndQuizClick} className={`${portal ? styles.hideButton : ''}`}>
+      <Timer isEnd={isQuizCompleted} setEnd={setQuizCompleted} />
+      <button onClick={handleEndQuizClick} className={`${isQuizCompleted ? styles.hideButton : ''}`}>
         End quiz
       </button>
 

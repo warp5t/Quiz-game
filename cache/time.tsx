@@ -16,7 +16,7 @@ export const Time = () => {
     <>
       <FlexBox flexDirection='column'>
         <h3>Time</h3>
-        <select onChange={handleTime}>
+        <select onChange={handleTime} defaultValue={arrTime[0]}>
           {arrTime.map((el: number) => (
             <option key={el} value={el}>
               {el}min

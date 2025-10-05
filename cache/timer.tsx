@@ -1,12 +1,18 @@
 import { useState, useEffect, useCallback } from 'react'
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { useSelector } from 'react-redux'
-import type { RootState } from '../../store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch, RootState } from '../../store/store'
+import { setRemainTime } from '../../slicers/statistic/quizStatistic'
 
-export const Timer = () => {
+interface TimerProps {
+  isEnd: boolean
+  setEnd: (arg: boolean) => void
+}
+
+export const Timer = ({ isEnd, setEnd }: TimerProps) => {
   const initialMinutes = useSelector((state: RootState) => state.quiz.config.time)
   const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
-  const [isRunning, setIsRunning] = useState(true)
+  const dispatch = useDispatch<AppDispatch>()
 
   const formatTime = useCallback((seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -15,21 +21,30 @@ export const Timer = () => {
   }, [])
 
   useEffect(() => {
-    let interval: undefined | number = undefined
+    let interval: number | undefined = undefined
 
-    if (isRunning && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1)
-      }, 1000)
-    } else if (timeLeft === 0) {
-      setIsRunning(false)
-      clearInterval(interval)
-    }
+    interval = window.setInterval(() => {
+      setTimeLeft((currentTime) => {
+        const newTime = currentTime - 1
+        console.log('timeLeft: ', newTime)
+        if (isEnd) {
+          dispatch(setRemainTime(timeLeft))
+          if (interval) clearInterval(interval)
+        }
+        if (newTime <= 1) {
+          setEnd(true)
+          dispatch(setRemainTime(0))
+          if (interval) clearInterval(interval)
+        }
+
+        return newTime
+      })
+    }, 100)
 
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [])
+  }, [isEnd, dispatch, setEnd])
 
   return (
     <FlexBox justifyContent='center'>

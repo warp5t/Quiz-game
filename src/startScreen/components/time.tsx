@@ -1,10 +1,11 @@
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 import { setTime } from '../../slicers/quizSetting/quizSettingSlice'
-import type { AppDispatch } from '../../store/store'
-import { useDispatch } from 'react-redux'
+import type { AppDispatch, RootState } from '../../store/store'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const Time = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const currentTime = useSelector((state: RootState) => state.quiz.config.time)
   const arrTime = [1, 2, 5]
 
   const handleTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -16,7 +17,7 @@ export const Time = () => {
     <>
       <FlexBox flexDirection='column'>
         <h3>Time</h3>
-        <select onChange={handleTime}>
+        <select onChange={handleTime} value={currentTime}>
           {arrTime.map((el: number) => (
             <option key={el} value={el}>
               {el}min
