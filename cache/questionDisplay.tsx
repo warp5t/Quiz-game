@@ -2,7 +2,7 @@ import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 
 interface QuestionDisplayProps {
   questionData: any
-  onAnswer: () => void
+  onAnswer: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export const QuestionDisplay = ({ questionData, onAnswer }: QuestionDisplayProps) => (

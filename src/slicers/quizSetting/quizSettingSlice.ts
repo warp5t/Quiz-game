@@ -63,7 +63,6 @@ export const { setAmount, setCategory, setDifficulty, setTime, setLoading, setEr
 
 export default quizSlice.reducer
 
-// Selectors
 export const selectQuizConfig = (state: RootState) => state.quiz.config
 export const selectQuizIsLoading = (state: RootState) => state.quiz.isLoading
 export const selectQuizError = (state: RootState) => state.quiz.error

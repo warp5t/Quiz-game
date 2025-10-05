@@ -12,6 +12,9 @@ import { QuizCompleted } from './components/quizCompleted'
 import { QuestionDisplay } from './components/questionDisplay'
 import { ConfettiDemo } from './components/confetti'
 import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
+import { addAnswer, resetStatistic } from '../slicers/statistic/quizStatistic'
+import styles from './mainScreen.module.css'
+import { resetConfig } from '../slicers/quizSetting/quizSettingSlice'
 
 const NoQuestions = () => <p>No questions available</p>
 
@@ -30,7 +33,7 @@ export const MainScreen = () => {
   const dispatch = useDispatch<AppDispatch>()
   const hasFetchedRef = useRef(false)
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [quizCompleted, setQuizCompleted] = useState(false)
+  const [isQuizCompleted, setQuizCompleted] = useState(false)
   const [isConfetti, setConfetti] = useState(false)
 
   const ammountQuestions = useSelector((state: RootState) => state.quiz.config.amount)
@@ -43,7 +46,7 @@ export const MainScreen = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
+  const qiuzFetch = () => {
     if (!hasFetchedRef.current && ammountQuestions > 0) {
       let url = `https://opentdb.com/api.php?amount=${ammountQuestions}`
       if (difficult !== '') {
@@ -55,7 +58,13 @@ export const MainScreen = () => {
 
       dispatch(getResponseQuiz(url))
       hasFetchedRef.current = true
+    } else {
+      console.error('ammountQuestions < 0 or question has fetched')
     }
+  }
+
+  useEffect(() => {
+    qiuzFetch()
   }, [dispatch, ammountQuestions, difficult, category])
 
   const handleEndQuizClick = () => {
@@ -63,6 +72,8 @@ export const MainScreen = () => {
   }
 
   const handleConfirmQuit = () => {
+    // dispatch(resetStatistic())
+    dispatch(resetConfig())
     navigate('/start')
   }
 
@@ -71,10 +82,25 @@ export const MainScreen = () => {
   }
 
   const handleAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const selectedAnswer = event.currentTarget.value
-    const correctAnswer = quizResponse?.results[currentQuestion].correct_answer
+    if (!quizResponse?.results?.[currentQuestion]) {
+      console.error('Question data is not available')
+      return
+    }
 
-    const isCorrect = selectedAnswer.toLowerCase() === correctAnswer?.toLowerCase()
+    const selectedAnswer = event.currentTarget.value
+    const currentQuestionData = quizResponse.results[currentQuestion]
+    const correctAnswer = currentQuestionData.correct_answer
+
+    const isCorrect = selectedAnswer.toLowerCase() === correctAnswer.toLowerCase()
+
+    dispatch(
+      addAnswer({
+        question: currentQuestionData.question,
+        userAnswer: selectedAnswer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect
+      })
+    )
 
     if (isCorrect) {
       setConfetti(true)
@@ -86,11 +112,22 @@ export const MainScreen = () => {
       }
     } else {
       wrongAnswerAnimation()
-      setCurrentQuestion((prev) => prev + 1)
+      if (currentQuestion + 1 >= ammountQuestions) {
+        setQuizCompleted(true)
+      } else {
+        setCurrentQuestion((prev) => prev + 1)
+      }
     }
   }
+
   const handleStartNewQuiz = () => {
-    navigate('/start')
+    setCurrentQuestion(0)
+    setQuizCompleted(false)
+    setConfetti(false)
+    hasFetchedRef.current = false
+    dispatch(resetStatistic())
+    dispatch(resetConfig())
+    qiuzFetch()
   }
 
   if (quizLoading) {
@@ -117,29 +154,31 @@ export const MainScreen = () => {
     )
   }
 
-  const isQuestionAvailable =
-    quizResponse &&
-    quizResponse.results &&
-    quizResponse.results.length > 0 &&
-    currentQuestion < quizResponse.results.length
+  const isQuestionAvailable = Boolean(quizResponse?.results?.[currentQuestion])
 
   let content
-  if (quizCompleted) {
-    content = <QuizCompleted onStartNewQuiz={handleStartNewQuiz} questionsCount={ammountQuestions} />
-  } else if (isQuestionAvailable) {
+  if (isQuizCompleted) {
+    content = (
+      <QuizCompleted
+        onStartNewQuiz={handleStartNewQuiz}
+        onChoseQuit={handleConfirmQuit}
+        questionsCount={ammountQuestions}
+      />
+    )
+  } else if (quizResponse?.results?.[currentQuestion]) {
     content = <QuestionDisplay questionData={quizResponse.results[currentQuestion]} onAnswer={handleAnswer} />
   } else {
     content = <NoQuestions />
   }
-
   return (
     <FlexBox flexDirection='column'>
+      {!isQuizCompleted && isQuestionAvailable && <Progress current={currentQuestion + 1} total={ammountQuestions} />}
+
       {content}
-
-      {!quizCompleted && isQuestionAvailable && <Progress current={currentQuestion + 1} total={ammountQuestions} />}
-
-      <Timer />
-      <button onClick={handleEndQuizClick}>End quiz</button>
+      <Timer isEnd={isQuizCompleted} setEnd={setQuizCompleted} />
+      <button onClick={handleEndQuizClick} className={`${isQuizCompleted ? styles.hideButton : ''}`}>
+        End quiz
+      </button>
 
       {portal &&
         modalRoot &&

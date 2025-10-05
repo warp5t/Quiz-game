@@ -1,12 +1,13 @@
-// store.ts
 import { configureStore } from '@reduxjs/toolkit'
 import quizReducer from '../slicers/quizSetting/quizSettingSlice'
 import quizResponseReducer from '../slicers/response/quizResponseSlice'
+import statisticReducer from '../slicers/statistic/quizStatistic'
 
 export const store = configureStore({
   reducer: {
     quiz: quizReducer,
-    quizResponse: quizResponseReducer
+    quizResponse: quizResponseReducer,
+    statistic: statisticReducer
   }
 })
 

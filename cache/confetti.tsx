@@ -1,17 +1,41 @@
+import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 
-export const ConfettiDemo = (props: { isRun: boolean }) => {
+interface ConfettiDemoProps {
+  isRun: boolean
+  duration?: number
+  setConfetti: (arg: boolean) => void
+}
+
+export const ConfettiDemo = ({ isRun, duration = 5000, setConfetti }: ConfettiDemoProps) => {
+  const [internalRun, setInternalRun] = useState(false)
+
+  useEffect(() => {
+    if (isRun) {
+      setInternalRun(true)
+
+      const timer = setTimeout(() => {
+        setInternalRun(false)
+        setConfetti(false)
+      }, duration)
+
+      return () => clearTimeout(timer)
+    } else {
+      setInternalRun(false)
+    }
+  }, [isRun, duration])
+
+  if (!internalRun) return null
+
   return (
-    <div>
-      <Confetti
-        width={window.innerWidth}
-        height={window.innerHeight}
-        run={props.isRun}
-        recycle={true}
-        numberOfPieces={200}
-        gravity={0.2}
-        wind={0.01}
-      />
-    </div>
+    <Confetti
+      width={window.innerWidth}
+      height={window.innerHeight}
+      run={internalRun}
+      recycle={true}
+      numberOfPieces={200}
+      gravity={0.2}
+      wind={0.01}
+    />
   )
 }

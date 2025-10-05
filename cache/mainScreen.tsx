@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import { FlexBox } from '../reusalbleComponents/FlexBox/FlexBox'
 import { Timer } from './components/timer'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { AppDispatch, RootState } from '../store/store'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,9 @@ import { ModalQuit } from './components/modalQuit'
 import { QuizCompleted } from './components/quizCompleted'
 import { QuestionDisplay } from './components/questionDisplay'
 import { ConfettiDemo } from './components/confetti'
+import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
+import { addAnswer } from '../slicers/statistic/quizStatistic'
+import styles from './mainScreen.module.css'
 
 const NoQuestions = () => <p>No questions available</p>
 
@@ -29,8 +32,9 @@ export const MainScreen = () => {
   const dispatch = useDispatch<AppDispatch>()
   const hasFetchedRef = useRef(false)
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [quizCompleted, setQuizCompleted] = useState(false)
+  const [isQuizCompleted, setQuizCompleted] = useState(false)
   const [isConfetti, setConfetti] = useState(false)
+  const [isRestart, setRestart] = useState(false)
 
   const ammountQuestions = useSelector((state: RootState) => state.quiz.config.amount)
   const category = useSelector((state: RootState) => state.quiz.config.category)
@@ -42,7 +46,7 @@ export const MainScreen = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
+  const qiuzFetch = () => {
     if (!hasFetchedRef.current && ammountQuestions > 0) {
       let url = `https://opentdb.com/api.php?amount=${ammountQuestions}`
       if (difficult !== '') {
@@ -54,8 +58,14 @@ export const MainScreen = () => {
 
       dispatch(getResponseQuiz(url))
       hasFetchedRef.current = true
+    } else {
+      console.error('ammountQuestions < 0 or question has fetched')
     }
-  }, [dispatch, ammountQuestions, difficult, category])
+  }
+
+  useEffect(() => {
+    qiuzFetch()
+  }, [dispatch, ammountQuestions, difficult, category, isRestart])
 
   const handleEndQuizClick = () => {
     setPortal(!portal)
@@ -69,12 +79,48 @@ export const MainScreen = () => {
     setPortal(false)
   }
 
-  const handleAnswer = () => {
-    if (currentQuestion + 1 >= ammountQuestions) {
-      setQuizCompleted(true)
-    } else {
-      setCurrentQuestion((prev) => prev + 1)
+  const handleRestartQuiz = () => {
+    // navigate('/start')
+    // qiuzFetch()
+    setRestart(!isRestart)
+  }
+
+  const handleAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!quizResponse?.results?.[currentQuestion]) {
+      console.error('Question data is not available')
+      return
+    }
+
+    const selectedAnswer = event.currentTarget.value
+    const currentQuestionData = quizResponse.results[currentQuestion]
+    const correctAnswer = currentQuestionData.correct_answer
+
+    const isCorrect = selectedAnswer.toLowerCase() === correctAnswer.toLowerCase()
+
+    dispatch(
+      addAnswer({
+        question: currentQuestionData.question,
+        userAnswer: selectedAnswer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect
+      })
+    )
+
+    if (isCorrect) {
       setConfetti(true)
+
+      if (currentQuestion + 1 >= ammountQuestions) {
+        setQuizCompleted(true)
+      } else {
+        setCurrentQuestion((prev) => prev + 1)
+      }
+    } else {
+      wrongAnswerAnimation()
+      if (currentQuestion + 1 >= ammountQuestions) {
+        setQuizCompleted(true)
+      } else {
+        setCurrentQuestion((prev) => prev + 1)
+      }
     }
   }
 
@@ -106,34 +152,37 @@ export const MainScreen = () => {
     )
   }
 
-  const isQuestionAvailable =
-    quizResponse &&
-    quizResponse.results &&
-    quizResponse.results.length > 0 &&
-    currentQuestion < quizResponse.results.length
+  const isQuestionAvailable = Boolean(quizResponse?.results?.[currentQuestion])
 
   let content
-  if (quizCompleted) {
-    content = <QuizCompleted onStartNewQuiz={handleStartNewQuiz} questionsCount={ammountQuestions} />
-  } else if (isQuestionAvailable) {
+  if (isQuizCompleted) {
+    handleEndQuizClick()
+    content = (
+      <QuizCompleted
+        onStartNewQuiz={handleStartNewQuiz}
+        onChoseQuit={handleConfirmQuit}
+        questionsCount={ammountQuestions}
+      />
+    )
+  } else if (quizResponse?.results?.[currentQuestion]) {
     content = <QuestionDisplay questionData={quizResponse.results[currentQuestion]} onAnswer={handleAnswer} />
   } else {
     content = <NoQuestions />
   }
-
   return (
     <FlexBox flexDirection='column'>
+      {!isQuizCompleted && isQuestionAvailable && <Progress current={currentQuestion + 1} total={ammountQuestions} />}
+
       {content}
-
-      {!quizCompleted && isQuestionAvailable && <Progress current={currentQuestion + 1} total={ammountQuestions} />}
-
       <Timer />
-      <button onClick={handleEndQuizClick}>End quiz</button>
+      <button onClick={handleEndQuizClick} className={`${portal ? styles.hideButton : ''}`}>
+        End quiz
+      </button>
 
       {portal &&
         modalRoot &&
         createPortal(<ModalQuit onConfirm={handleConfirmQuit} onCancel={handleCancelQuit} />, modalRoot)}
-      <ConfettiDemo isRun={isConfetti} />
+      <ConfettiDemo isRun={isConfetti} setConfetti={setConfetti} />
     </FlexBox>
   )
 }
