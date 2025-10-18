@@ -15,6 +15,7 @@ import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
 import { addAnswer, resetStatistic } from '../slicers/statistic/quizStatistic'
 import styles from './mainScreen.module.css'
 import { resetConfig } from '../slicers/quizSetting/quizSettingSlice'
+import { setCategoryResult, setCorrectOverall, setQuestionOverall } from '../slicers/statistic/persistQuizStatistic'
 
 const NoQuestions = () => <p>No questions available</p>
 
@@ -44,9 +45,14 @@ export const MainScreen = () => {
   const quizLoading = useSelector(selectQuizLoading)
   const quizError = useSelector(selectQuizError)
 
+  const currentStatistic = useSelector((state: RootState) => state.statistic)
+  const persistStatistic = useSelector((state: RootState) => state.persistStatistic)
+
   const navigate = useNavigate()
 
   const qiuzFetch = () => {
+    const abortController = new AbortController()
+
     if (!hasFetchedRef.current && ammountQuestions > 0) {
       let url = `https://opentdb.com/api.php?amount=${ammountQuestions}`
       if (difficult !== '') {
@@ -61,18 +67,29 @@ export const MainScreen = () => {
     } else {
       console.error('ammountQuestions < 0 or question has fetched')
     }
+
+    return () => {
+      abortController.abort()
+    }
   }
 
   useEffect(() => {
     qiuzFetch()
   }, [dispatch, ammountQuestions, difficult, category])
 
+  useEffect(() => {
+    if (isQuizCompleted) {
+      dispatch(setQuestionOverall(persistStatistic.questionsOverall + ammountQuestions))
+
+      dispatch(setCorrectOverall(persistStatistic.correctOverall + currentStatistic.correct))
+    }
+  }, [isQuizCompleted])
+
   const handleEndQuizClick = () => {
     setPortal(!portal)
   }
 
   const handleConfirmQuit = () => {
-    // dispatch(resetStatistic())
     dispatch(resetConfig())
     navigate('/start')
   }
@@ -121,13 +138,24 @@ export const MainScreen = () => {
   }
 
   const handleStartNewQuiz = () => {
-    setCurrentQuestion(0)
-    setQuizCompleted(false)
-    setConfetti(false)
-    hasFetchedRef.current = false
-    dispatch(resetStatistic())
-    dispatch(resetConfig())
-    qiuzFetch()
+    if (isQuizCompleted && quizResponse?.results?.[0]) {
+      const categoryName = quizResponse.results[0].category
+
+      dispatch(
+        setCategoryResult({
+          name: categoryName,
+          amount: ammountQuestions
+        })
+      )
+
+      setCurrentQuestion(0)
+      setQuizCompleted(false)
+      setConfetti(false)
+      hasFetchedRef.current = false
+      dispatch(resetStatistic())
+      dispatch(resetConfig())
+      qiuzFetch()
+    }
   }
 
   if (quizLoading) {

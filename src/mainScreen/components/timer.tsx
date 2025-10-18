@@ -21,29 +21,31 @@ export const Timer = ({ isEnd, setEnd }: TimerProps) => {
   }, [])
 
   useEffect(() => {
-    let interval: number | undefined = undefined
+    setTimeLeft(initialMinutes * 60)
+  }, [initialMinutes])
 
-    interval = window.setInterval(() => {
+  useEffect(() => {
+    if (isEnd) {
+      dispatch(setRemainTime(timeLeft))
+      return
+    }
+
+    const interval = window.setInterval(() => {
       setTimeLeft((currentTime) => {
         const newTime = currentTime - 1
-        console.log('timeLeft: ', newTime)
-        if (isEnd) {
-          dispatch(setRemainTime(timeLeft))
-          if (interval) clearInterval(interval)
-        }
-        if (newTime <= 1) {
+
+        if (newTime <= 0) {
           setEnd(true)
           dispatch(setRemainTime(0))
-          if (interval) clearInterval(interval)
+          clearInterval(interval)
+          return 0
         }
 
         return newTime
       })
-    }, 100)
+    }, 1000)
 
-    return () => {
-      if (interval) clearInterval(interval)
-    }
+    return () => clearInterval(interval)
   }, [isEnd, dispatch, setEnd])
 
   return (
