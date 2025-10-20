@@ -1,8 +1,8 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { useCapitalize } from '../../utils/capitalizer'
-import { setDifficulty } from '../../slicers/quizSetting/quizSettingSlice'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
+import { useCapitalize } from '../../../utils/capitalizer'
+import { setDifficulty } from '../../../slicers/quizSetting/quizSettingSlice'
 import { useDispatch } from 'react-redux'
-import type { AppDispatch } from '../../store/store'
+import type { AppDispatch } from '../../../store/store'
 
 export const Difficulty = () => {
   const dispatch = useDispatch<AppDispatch>()

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { FlexBox } from '../reusalbleComponents/FlexBox/FlexBox'
+import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 
 const correctAnswers = 1
 const ammountQuestions = 6

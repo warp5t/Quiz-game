@@ -1,4 +1,3 @@
-// src/slicers/response/quizResponseSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../../store/store'
 
@@ -28,7 +27,6 @@ const initialState: QuizResponseState = {
   error: null
 }
 
-// Async thunk для получения вопросов
 export const getResponseQuiz = createAsyncThunk('quizResponse/getResponseQuiz', async (url: string) => {
   const response = await fetch(url)
   if (!response.ok) {

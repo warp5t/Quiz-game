@@ -1,6 +1,6 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { setTime } from '../../slicers/quizSetting/quizSettingSlice'
-import type { AppDispatch, RootState } from '../../store/store'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
+import { setTime } from '../../../slicers/quizSetting/quizSettingSlice'
+import type { AppDispatch, RootState } from '../../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const Time = () => {

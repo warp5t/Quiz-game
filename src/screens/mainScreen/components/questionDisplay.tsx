@@ -1,4 +1,4 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 
 interface QuestionDisplayProps {
   questionData: any

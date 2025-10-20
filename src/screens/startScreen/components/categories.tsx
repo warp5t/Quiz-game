@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { setCategory, type ICategory } from '../../slicers/quizSetting/quizSettingSlice' // Импортируем ICategory из slice
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
+import { setCategory, type ICategory } from '../../../slicers/quizSetting/quizSettingSlice'
 import { useDispatch } from 'react-redux'
-import type { AppDispatch } from '../../store/store'
+import type { AppDispatch } from '../../../store/store'
 
 interface ICategories {
   trivia_categories: Array<ICategory>

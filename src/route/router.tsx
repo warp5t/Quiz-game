@@ -3,8 +3,8 @@ import { StrictMode } from 'react'
 import { Provider } from 'react-redux'
 import { store } from '../store/store'
 import { App } from '../App'
-import { MainScreen } from '../mainScreen/mainScreen'
-import { StartScreen } from '../startScreen/startScreen'
+import { MainScreen } from '../screens/mainScreen/mainScreen'
+import { StartScreen } from '../screens/startScreen/startScreen'
 import { StatScreen } from '../screens/statisticScreen/statisticScreen'
 
 export const router = createBrowserRouter([

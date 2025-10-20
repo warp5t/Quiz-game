@@ -1,8 +1,8 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { setAmount } from '../../slicers/quizSetting/quizSettingSlice'
-import type { AppDispatch } from '../../store/store'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
+import { setAmount } from '../../../slicers/quizSetting/quizSettingSlice'
+import type { AppDispatch } from '../../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import type { RootState } from '../../store/store'
+import type { RootState } from '../../../store/store'
 
 export const AmmountQuestions = () => {
   const dispatch = useDispatch<AppDispatch>()
