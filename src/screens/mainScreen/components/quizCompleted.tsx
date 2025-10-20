@@ -1,5 +1,5 @@
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { StatScreen } from '../../statisticScreen/statisticScreen'
+import { StatScreen } from '../../screens/statisticScreen/statisticScreen'
 
 export const QuizCompleted = ({
   onStartNewQuiz,

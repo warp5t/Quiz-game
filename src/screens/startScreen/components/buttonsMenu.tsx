@@ -1,9 +1,9 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch, RootState } from '../../store/store'
-import { setDifficultQuestions } from '../../slicers/statistic/persistQuizStatistic'
+import type { AppDispatch, RootState } from '../../../store/store'
+import { setDifficultQuestions } from '../../../slicers/statistic/persistQuizStatistic'
 
 const StyledFlexBox = styled(FlexBox)`
   margin: 30px;

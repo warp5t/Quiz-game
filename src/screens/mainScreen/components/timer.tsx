@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch, RootState } from '../../store/store'
-import { setRemainTime } from '../../slicers/statistic/quizStatistic'
+import type { AppDispatch, RootState } from '../../../store/store'
+import { setRemainTime } from '../../../slicers/statistic/quizStatistic'
 
 interface TimerProps {
   isEnd: boolean

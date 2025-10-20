@@ -82,5 +82,6 @@ export const selectPersistStatistic = (state: RootState) => state.persistStatist
 export const selectQuestionsOverall = (state: RootState) => state.persistStatistic.questionsOverall
 export const selectCorrectOverall = (state: RootState) => state.persistStatistic.correctOverall
 export const selectCategories = (state: RootState) => state.persistStatistic.categories
+export const selectDifficulty = (state: RootState) => state.persistStatistic.difficulty
 
 export default quizPersistSlice.reducer

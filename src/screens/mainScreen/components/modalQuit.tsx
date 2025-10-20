@@ -1,5 +1,5 @@
-import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
-import { StyledDivModal } from '../../reusalbleComponents/Modal/Modal.styles'
+import { StyledDivModal } from '../../../reusalbleComponents/Modal/Modal.styles'
+import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 
 interface ModalQuitProps {
   onCancel: () => void

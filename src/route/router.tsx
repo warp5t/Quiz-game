@@ -5,7 +5,7 @@ import { store } from '../store/store'
 import { App } from '../App'
 import { MainScreen } from '../mainScreen/mainScreen'
 import { StartScreen } from '../startScreen/startScreen'
-import { StatScreen } from '../statisticScreen/statisticScreen'
+import { StatScreen } from '../screens/statisticScreen/statisticScreen'
 
 export const router = createBrowserRouter([
   {
