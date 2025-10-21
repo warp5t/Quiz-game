@@ -11,6 +11,7 @@ interface QuizConfig {
   amount: number
   category: ICategory | null
   difficulty: string
+  type: string
   time: number
 }
 
@@ -25,6 +26,7 @@ const initialState: QuizState = {
     amount: 1,
     category: null,
     difficulty: '',
+    type: '',
     time: 2
   },
   isLoading: false,
@@ -44,6 +46,9 @@ export const quizSlice = createSlice({
     setDifficulty: (state, action: PayloadAction<string>) => {
       state.config.difficulty = action.payload
     },
+    setType: (state, action: PayloadAction<string>) => {
+      state.config.type = action.payload
+    },
     setTime: (state, action: PayloadAction<number>) => {
       state.config.time = action.payload
     },
@@ -59,10 +64,14 @@ export const quizSlice = createSlice({
   }
 })
 
-export const { setAmount, setCategory, setDifficulty, setTime, setLoading, setError, resetConfig } = quizSlice.actions
+export const { setAmount, setCategory, setDifficulty, setType, setTime, setLoading, setError, resetConfig } =
+  quizSlice.actions
 
 export default quizSlice.reducer
 
-export const selectQuizConfig = (state: RootState) => state.quiz.config
+export const selectQuizConfigAmount = (state: RootState) => state.quiz.config.amount
+export const selectQuizConfigCategory = (state: RootState) => state.quiz.config.category
+export const selectQuizConfigDifficulty = (state: RootState) => state.quiz.config.difficulty
+export const selectQuizConfigType = (state: RootState) => state.quiz.config.type
 export const selectQuizIsLoading = (state: RootState) => state.quiz.isLoading
 export const selectQuizError = (state: RootState) => state.quiz.error

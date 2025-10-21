@@ -61,6 +61,7 @@ export const quizPersistSlice = createSlice({
         state.difficulty.push(difficult)
       }
     },
+
     resetPersistStatistic: (state) => {
       state.questionsOverall = 0
       state.correctOverall = 0

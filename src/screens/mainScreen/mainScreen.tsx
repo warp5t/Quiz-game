@@ -4,7 +4,7 @@ import { Timer } from './components/timer'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import type { AppDispatch, RootState } from '../../store/store'
+import type { AppDispatch } from '../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { getResponseQuiz } from '../../slicers/response/quizResponseSlice'
 import { selectQuizResponse, selectQuizLoading, selectQuizError } from '../../slicers/response/quizResponseSlice'
@@ -13,16 +13,27 @@ import { QuizCompleted } from './components/quizCompleted'
 import { QuestionDisplay } from './components/questionDisplay'
 import { ConfettiDemo } from './components/confetti'
 import { wrongAnswerAnimation } from './components/wrongAnswer/wrongAnswer'
-import { addAnswer, resetStatistic } from '../../slicers/statistic/quizStatistic'
+import { addAnswer, resetStatistic, selectStatistic } from '../../slicers/statistic/quizStatistic'
 import styles from './mainScreen.module.css'
-import { resetConfig } from '../../slicers/quizSetting/quizSettingSlice'
-import { setCategoryResult, setCorrectOverall, setQuestionOverall } from '../../slicers/statistic/persistQuizStatistic'
+import {
+  resetConfig,
+  selectQuizConfigAmount,
+  selectQuizConfigCategory,
+  selectQuizConfigDifficulty,
+  selectQuizConfigType
+} from '../../slicers/quizSetting/quizSettingSlice'
+import {
+  selectPersistStatistic,
+  setCategoryResult,
+  setCorrectOverall,
+  setQuestionOverall
+} from '../../slicers/statistic/persistQuizStatistic'
 
 const NoQuestions = () => <p>No questions available</p>
 
 const Progress = ({ current, total }: { current: number; total: number }) => (
   <>
-    <h5>Progress</h5>
+    <div>Progress</div>
     <p>
       Question {current} of {total}
     </p>
@@ -38,16 +49,17 @@ export const MainScreen = () => {
   const [isQuizCompleted, setQuizCompleted] = useState(false)
   const [isConfetti, setConfetti] = useState(false)
 
-  const ammountQuestions = useSelector((state: RootState) => state.quiz.config.amount)
-  const category = useSelector((state: RootState) => state.quiz.config.category)
-  const difficult = useSelector((state: RootState) => state.quiz.config.difficulty)
+  const ammountQuestions = useSelector(selectQuizConfigAmount)
+  const category = useSelector(selectQuizConfigCategory)
+  const difficult = useSelector(selectQuizConfigDifficulty)
+  const type = useSelector(selectQuizConfigType)
 
   const quizResponse = useSelector(selectQuizResponse)
   const quizLoading = useSelector(selectQuizLoading)
   const quizError = useSelector(selectQuizError)
 
-  const currentStatistic = useSelector((state: RootState) => state.statistic)
-  const persistStatistic = useSelector((state: RootState) => state.persistStatistic)
+  const currentStatistic = useSelector(selectStatistic)
+  const persistStatistic = useSelector(selectPersistStatistic)
 
   const navigate = useNavigate()
 
@@ -62,7 +74,9 @@ export const MainScreen = () => {
       if (category !== null) {
         url += `&category=${category.id}`
       }
-
+      if (type !== '') {
+        url += `&type=${type}`
+      }
       dispatch(getResponseQuiz(url))
       hasFetchedRef.current = true
     } else {
@@ -173,6 +187,7 @@ export const MainScreen = () => {
               let url = `https://opentdb.com/api.php?amount=${ammountQuestions}`
               if (difficult !== '') url += `&difficulty=${difficult}`
               if (category !== null) url += `&category=${category.id}`
+              if (type !== '') url += `&type=${type}`
               dispatch(getResponseQuiz(url))
             }, 2000)
           }}

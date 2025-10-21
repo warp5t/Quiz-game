@@ -19,7 +19,7 @@ export const Difficulty = () => {
       <FlexBox flexDirection='column'>
         <h3>Difficulty</h3>
         <select defaultValue='' onChange={handleDifficult}>
-          <option value=''>Any type</option>
+          <option value=''>Any difficulty</option>
           {arrDifficult.map((el: string) => (
             <option key={el} value={el}>
               {useCapitalize(el)}
