@@ -24,7 +24,7 @@ import {
 } from '../../slicers/quizSetting/quizSettingSlice'
 import {
   selectPersistStatistic,
-  setCategoryResult,
+  setCategoryQuestion,
   setCorrectOverall,
   setQuestionOverall
 } from '../../slicers/statistic/persistQuizStatistic'
@@ -157,7 +157,7 @@ export const MainScreen = () => {
       const categoryName = quizResponse.results[0].category
 
       dispatch(
-        setCategoryResult({
+        setCategoryQuestion({
           name: categoryName,
           amount: ammountQuestions
         })

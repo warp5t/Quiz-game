@@ -5,7 +5,7 @@ import { store } from '../store/store'
 import { App } from '../App'
 import { MainScreen } from '../screens/mainScreen/mainScreen'
 import { StartScreen } from '../screens/startScreen/startScreen'
-import { StatScreen } from '../screens/statisticScreen/statisticScreen'
+import { StatisticScreen } from '../screens/statisticScreen/statisticScreen'
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
     element: (
       <StrictMode>
         <Provider store={store}>
-          <StatScreen />
+          <StatisticScreen />
         </Provider>
       </StrictMode>
     )

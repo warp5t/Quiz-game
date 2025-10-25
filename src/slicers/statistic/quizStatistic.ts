@@ -55,4 +55,5 @@ export const statisticSlice = createSlice({
 
 export const { addAnswer, setRemainTime, resetStatistic } = statisticSlice.actions
 export const selectStatistic = (state: RootState) => state.statistic
+export const selectReaminedTime = (state: RootState) => state.statistic.remainTime
 export default statisticSlice.reducer

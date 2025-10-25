@@ -1,16 +1,45 @@
 import { useSelector } from 'react-redux'
-import type { RootState } from '../../store/store'
+import {
+  selectCategories,
+  selectCorrectOverall,
+  selectDifficulty,
+  selectQuestionsOverall,
+  selectType
+} from '../../slicers/statistic/persistQuizStatistic'
+import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 
-export const StatScreen = () => {
-  const rightAnsersAmmout = useSelector((state: RootState) => state.statistic.correct)
-  const wrongAnsersAmmout = useSelector((state: RootState) => state.statistic.wrong)
-  const remainedTime = useSelector((state: RootState) => state.statistic.remainTime)
+export const StatisticScreen = () => {
+  const rightAnsersAmmout = useSelector(selectCorrectOverall)
+  const overallAmmout = useSelector(selectQuestionsOverall)
+  const categoy = useSelector(selectCategories)
+  const difficult = useSelector(selectDifficulty)
+  const type = useSelector(selectType)
   return (
     <>
       <h3>Statistic</h3>
-      <div>rightAnsersAmmout: {rightAnsersAmmout}</div>
-      <div>wrongAnsersAmmout: {wrongAnsersAmmout}</div>
-      <div>remainedTime: {remainedTime}</div>
+      <div>Right answers: {rightAnsersAmmout}</div>
+      <div>Overall answers: {overallAmmout}</div>
+      <div>Сategories</div>
+      {categoy.map((el) => (
+        <FlexBox gap='15px'>
+          <div key={el.name}>{el.name} :</div>
+          <div>{el.amount}</div>
+        </FlexBox>
+      ))}
+      <div>Difficulty</div>
+      {difficult.map((el) => (
+        <FlexBox gap='15px'>
+          <div key={el.difficult}>{el.difficult} :</div>
+          <div>{el.amount}</div>
+        </FlexBox>
+      ))}
+      <div>Type</div>
+      {type.map((el) => (
+        <FlexBox gap='15px'>
+          <div key={el.type}>{el.type} :</div>
+          <div>{el.amount}</div>
+        </FlexBox>
+      ))}
     </>
   )
 }

@@ -9,7 +9,7 @@ import persistStatisticReducer from '../slicers/statistic/persistQuizStatistic'
 const persistConfig = {
   key: 'persistStatistic',
   storage,
-  whitelist: ['questionsOverall', 'correctOverall', 'categories']
+  whitelist: ['questionsOverall', 'correctOverall', 'categories', 'difficulty', 'type']
 }
 const persistedStatisticReducer = persistReducer(persistConfig, persistStatisticReducer)
 

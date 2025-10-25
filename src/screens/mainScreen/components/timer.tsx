@@ -1,8 +1,10 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '../../../store/store'
 import { setRemainTime } from '../../../slicers/statistic/quizStatistic'
+import { timeFormate } from '../../../utils/timeFormatter'
+import styles from './time.module.css'
 
 interface TimerProps {
   isEnd: boolean
@@ -13,12 +15,6 @@ export const Timer = ({ isEnd, setEnd }: TimerProps) => {
   const initialMinutes = useSelector((state: RootState) => state.quiz.config.time)
   const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
   const dispatch = useDispatch<AppDispatch>()
-
-  const formatTime = useCallback((seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-  }, [])
 
   useEffect(() => {
     setTimeLeft(initialMinutes * 60)
@@ -49,8 +45,10 @@ export const Timer = ({ isEnd, setEnd }: TimerProps) => {
   }, [isEnd, dispatch, setEnd])
 
   return (
-    <FlexBox justifyContent='center'>
-      <div>{formatTime(timeLeft)}</div>
-    </FlexBox>
+    <div className={!isEnd ? styles.visible : styles.hidden}>
+      <FlexBox justifyContent='center'>
+        <div>{timeFormate(timeLeft)}</div>
+      </FlexBox>
+    </div>
   )
 }

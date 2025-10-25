@@ -10,7 +10,6 @@ export const Type = () => {
   const arrValue = ['multiple', 'boolean']
 
   const handleType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('event.target.value: ', event.target.value)
     dispatch(setType(event.target.value))
   }
 

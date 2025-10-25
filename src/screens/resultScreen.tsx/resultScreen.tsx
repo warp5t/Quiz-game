@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { timeFormate } from '../../utils/timeFormatter'
+import { useSelector } from 'react-redux'
+import { selectReaminedTime } from '../../slicers/statistic/quizStatistic'
 
 const correctAnswers = 1
 const ammountQuestions = 6
@@ -8,7 +11,7 @@ const seconds = 13
 
 export const ResultScreen = () => {
   const navigate = useNavigate()
-
+  const remainedTime = useSelector(selectReaminedTime)
   const handleStart = () => {
     navigate('/start')
   }
@@ -30,9 +33,10 @@ export const ResultScreen = () => {
       <p>
         It took {minutes} minutes and {seconds} seconds to answer all the questions
       </p>
+      <div>remained time: {timeFormate(remainedTime)}</div>
       <FlexBox gap='16px' justifyContent='center'>
-        <button onClick={handleRestart}>Restart quiz</button>
         <button onClick={handleStart}>Choose another quiz</button>
+        <button onClick={handleRestart}>Restart quiz</button>
       </FlexBox>
     </FlexBox>
   )

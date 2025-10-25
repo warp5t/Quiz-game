@@ -10,7 +10,6 @@ export const Difficulty = () => {
   const arrDifficult = ['easy', 'medium', 'hard']
 
   const handleDifficult = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('event.target.value: ', event.target.value)
     dispatch(setDifficulty(event.target.value))
   }
 

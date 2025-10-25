@@ -12,18 +12,25 @@ interface IDifficulty {
   amount: number
 }
 
+interface IType {
+  type: string
+  amount: number
+}
+
 interface IPersistStatistic {
   questionsOverall: number
   correctOverall: number
   categories: ICategoryPersist[]
   difficulty: IDifficulty[]
+  type: IType[]
 }
 
 const initialState: IPersistStatistic = {
   questionsOverall: 0,
   correctOverall: 0,
   categories: [],
-  difficulty: []
+  difficulty: [],
+  type: []
 }
 
 export const quizPersistSlice = createSlice({
@@ -36,10 +43,8 @@ export const quizPersistSlice = createSlice({
     setCorrectOverall: (state, action: PayloadAction<number>) => {
       state.correctOverall = action.payload
     },
-    setCategoryResult: (state, action: PayloadAction<ICategoryPersist>) => {
+    setCategoryQuestion: (state, action: PayloadAction<ICategoryPersist>) => {
       const newCategory = action.payload
-
-      state.questionsOverall += newCategory.amount
 
       const existingCategory = state.categories.find((cat) => cat.name === newCategory.name)
 
@@ -49,10 +54,8 @@ export const quizPersistSlice = createSlice({
         state.categories.push(newCategory)
       }
     },
-    setDifficultQuestions: (state, action: PayloadAction<IDifficulty>) => {
+    setDifficultQuestion: (state, action: PayloadAction<IDifficulty>) => {
       const difficult = action.payload
-      state.questionsOverall += difficult.amount
-
       const existingDifficult = state.difficulty.find((dif) => dif.difficult === difficult.difficult)
 
       if (existingDifficult) {
@@ -61,11 +64,22 @@ export const quizPersistSlice = createSlice({
         state.difficulty.push(difficult)
       }
     },
+    setTypeQuestion: (state, action: PayloadAction<IType>) => {
+      const type = action.payload
+      const existingType = state.type.find((tp) => tp.type === type.type)
 
+      if (existingType) {
+        existingType.amount += type.amount
+      } else {
+        state.type.push(type)
+      }
+    },
     resetPersistStatistic: (state) => {
       state.questionsOverall = 0
       state.correctOverall = 0
       state.categories = []
+      state.difficulty = []
+      state.type = []
     }
   }
 })
@@ -73,16 +87,17 @@ export const quizPersistSlice = createSlice({
 export const {
   setQuestionOverall,
   setCorrectOverall,
-  setCategoryResult,
-  setDifficultQuestions,
+  setCategoryQuestion,
+  setDifficultQuestion,
+  setTypeQuestion,
   resetPersistStatistic
 } = quizPersistSlice.actions
 
 export const selectPersistStatistic = (state: RootState) => state.persistStatistic
-
 export const selectQuestionsOverall = (state: RootState) => state.persistStatistic.questionsOverall
 export const selectCorrectOverall = (state: RootState) => state.persistStatistic.correctOverall
-export const selectCategories = (state: RootState) => state.persistStatistic.categories
 export const selectDifficulty = (state: RootState) => state.persistStatistic.difficulty
+export const selectCategories = (state: RootState) => state.persistStatistic.categories
+export const selectType = (state: RootState) => state.persistStatistic.type
 
 export default quizPersistSlice.reducer

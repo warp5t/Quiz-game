@@ -1,5 +1,6 @@
 import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
-import { StatScreen } from '../../statisticScreen/statisticScreen'
+import { StatisticScreen } from '../../statisticScreen/statisticScreen'
+// import { ResultScreen } from '../../resultScreen.tsx/resultScreen'
 
 export const QuizCompleted = ({
   onStartNewQuiz,
@@ -14,8 +15,8 @@ export const QuizCompleted = ({
     <div>
       <h2>Quiz Completed!</h2>
       <p>You have answered all {questionsCount} questions.</p>
-      <StatScreen />
-      <FlexBox>
+      <StatisticScreen />
+      <FlexBox gap='10px'>
         <button onClick={onChoseQuit}>Choose another quiz</button>
         <button onClick={onStartNewQuiz}>Restart quiz</button>
       </FlexBox>
