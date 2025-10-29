@@ -74,4 +74,4 @@ export const selectQuizConfigCategory = (state: RootState) => state.quiz.config.
 export const selectQuizConfigDifficulty = (state: RootState) => state.quiz.config.difficulty
 export const selectQuizConfigType = (state: RootState) => state.quiz.config.type
 export const selectQuizIsLoading = (state: RootState) => state.quiz.isLoading
-export const selectQuizError = (state: RootState) => state.quiz.error
+export const selectQuizSettingError = (state: RootState) => state.quiz.error

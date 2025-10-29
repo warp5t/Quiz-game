@@ -224,9 +224,11 @@ export const MainScreen = () => {
         End quiz
       </button>
 
-      {portal &&
-        modalRoot &&
-        createPortal(<ModalQuit onConfirm={handleConfirmQuit} onCancel={handleCancelQuit} />, modalRoot)}
+      {modalRoot &&
+        createPortal(
+          <ModalQuit onConfirm={handleConfirmQuit} onCancel={handleCancelQuit} isOpen={portal} />,
+          modalRoot
+        )}
       <ConfettiDemo isRun={isConfetti} setConfetti={setConfetti} />
     </FlexBox>
   )
