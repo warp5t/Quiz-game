@@ -1,7 +1,6 @@
 import { motion } from 'motion/react'
 import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 import { StatisticScreen } from '../../statisticScreen/statisticScreen'
-// import { ResultScreen } from '../../resultScreen.tsx/resultScreen'
 
 export const QuizCompleted = ({
   onStartNewQuiz,

@@ -7,6 +7,8 @@ import {
   selectType
 } from '../../slicers/statistic/persistQuizStatistic'
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 export const StatisticScreen = () => {
   const rightAnsersAmmout = useSelector(selectCorrectOverall)
@@ -14,6 +16,11 @@ export const StatisticScreen = () => {
   const categoy = useSelector(selectCategories)
   const difficult = useSelector(selectDifficulty)
   const type = useSelector(selectType)
+  const navigate = useNavigate()
+
+  const handleStart = () => {
+    navigate('/start')
+  }
   return (
     <>
       <h3>Statistic</h3>
@@ -40,6 +47,10 @@ export const StatisticScreen = () => {
           <div>{el.amount}</div>
         </FlexBox>
       ))}
+      <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
+        {' '}
+        Main menu{' '}
+      </motion.button>
     </>
   )
 }
