@@ -3,6 +3,7 @@ import { setAmount } from '../../../slicers/quizSetting/quizSettingSlice'
 import type { AppDispatch } from '../../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../../store/store'
+import { motion } from 'motion/react'
 
 export const AmmountQuestions = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -22,8 +23,12 @@ export const AmmountQuestions = () => {
       <h3>Number of Questions</h3>
       <div>{amount}</div>
       <FlexBox gap='16px' justifyContent='center'>
-        <button onClick={decrement}>Decrement</button>
-        <button onClick={increment}>Increment</button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={decrement}>
+          Decrement
+        </motion.button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={increment}>
+          Increment
+        </motion.button>
       </FlexBox>
     </FlexBox>
   )

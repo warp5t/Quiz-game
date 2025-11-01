@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { FlexBox } from '../../../reusalbleComponents/FlexBox/FlexBox'
 
 interface QuestionDisplayProps {
@@ -10,19 +11,26 @@ export const QuestionDisplay = ({ questionData, onAnswer }: QuestionDisplayProps
     <p dangerouslySetInnerHTML={{ __html: questionData.question }} />
     {questionData.type === 'boolean' ? (
       <FlexBox gap='16px' justifyContent='center'>
-        <button onClick={onAnswer} value='true'>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={onAnswer} value='true'>
           True
-        </button>
-        <button onClick={onAnswer} value='false'>
+        </motion.button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={onAnswer} value='false'>
           False
-        </button>
+        </motion.button>
       </FlexBox>
     ) : (
       <FlexBox gap='16px' justifyContent='center'>
         {[...questionData.incorrect_answers, questionData.correct_answer]
           .sort(() => Math.random() - 0.5)
           .map((answer, index) => (
-            <button key={index} onClick={onAnswer} value={answer} dangerouslySetInnerHTML={{ __html: answer }} />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              key={index}
+              onClick={onAnswer}
+              value={answer}
+              dangerouslySetInnerHTML={{ __html: answer }}
+            />
           ))}
       </FlexBox>
     )}

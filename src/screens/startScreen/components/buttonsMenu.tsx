@@ -15,6 +15,7 @@ import {
   selectQuizConfigDifficulty,
   selectQuizConfigType
 } from '../../../slicers/quizSetting/quizSettingSlice'
+import { motion } from 'motion/react'
 
 const StyledFlexBox = styled(FlexBox)`
   margin: 30px;
@@ -67,9 +68,15 @@ export const ButtonsMenu = () => {
   return (
     <>
       <StyledFlexBox gap='16px' justifyContent='center'>
-        <button onClick={handleStart}>Start quiz</button>
-        <button onClick={handleStat}>See my stats</button>
-        <button onClick={resetStats}>Reset statistic</button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
+          Start quiz
+        </motion.button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStat}>
+          See my stats
+        </motion.button>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={resetStats}>
+          Reset statistic
+        </motion.button>
       </StyledFlexBox>
     </>
   )
