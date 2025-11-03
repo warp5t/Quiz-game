@@ -58,7 +58,7 @@ export const ButtonsMenu = () => {
   }
 
   const handleStat = () => {
-    navigate('/stat')
+    navigate('/stat?menu=true')
   }
 
   const resetStats = () => {

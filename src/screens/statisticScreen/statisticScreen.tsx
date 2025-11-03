@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import {
   selectCategories,
   selectCorrectOverall,
@@ -18,39 +19,44 @@ export const StatisticScreen = () => {
   const type = useSelector(selectType)
   const navigate = useNavigate()
 
+  const [searchParams] = useSearchParams()
+  const handleMenu = searchParams.get('menu') === 'true'
+
   const handleStart = () => {
     navigate('/start')
   }
+
   return (
     <>
       <h3>Statistic</h3>
       <div>Right answers: {rightAnsersAmmout}</div>
       <div>Overall answers: {overallAmmout}</div>
-      <div>Сategories</div>
+      <h4>Сategories</h4>
       {categoy.map((el) => (
         <FlexBox gap='15px'>
           <div key={el.name}>{el.name} :</div>
           <div>{el.amount}</div>
         </FlexBox>
       ))}
-      <div>Difficulty</div>
+      <h4>Difficulty</h4>
       {difficult.map((el) => (
         <FlexBox gap='15px'>
           <div key={el.difficult}>{el.difficult} :</div>
           <div>{el.amount}</div>
         </FlexBox>
       ))}
-      <div>Type</div>
+      <h4>Type</h4>
       {type.map((el) => (
         <FlexBox gap='15px'>
           <div key={el.type}>{el.type} :</div>
           <div>{el.amount}</div>
         </FlexBox>
       ))}
-      <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
-        {' '}
-        Main menu{' '}
-      </motion.button>
+      {handleMenu && (
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
+          Main menu
+        </motion.button>
+      )}
     </>
   )
 }
