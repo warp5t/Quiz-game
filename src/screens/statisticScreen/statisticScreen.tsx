@@ -10,6 +10,7 @@ import {
 import { FlexBox } from '../../reusalbleComponents/FlexBox/FlexBox'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import styles from './statisticScreen.module.css'
 
 export const StatisticScreen = () => {
   const rightAnsersAmmout = useSelector(selectCorrectOverall)
@@ -27,7 +28,7 @@ export const StatisticScreen = () => {
   }
 
   return (
-    <>
+    <FlexBox flexDirection='column' alignItems='center'>
       <h3>Statistic</h3>
       <div>Right answers: {rightAnsersAmmout}</div>
       <div>Overall answers: {overallAmmout}</div>
@@ -52,11 +53,13 @@ export const StatisticScreen = () => {
           <div>{el.amount}</div>
         </FlexBox>
       ))}
-      {handleMenu && (
-        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
-          Main menu
-        </motion.button>
-      )}
-    </>
+      <FlexBox className={styles.statisticWrap}>
+        {handleMenu && (
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} onClick={handleStart}>
+            Main menu
+          </motion.button>
+        )}
+      </FlexBox>
+    </FlexBox>
   )
 }
