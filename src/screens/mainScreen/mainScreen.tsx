@@ -152,7 +152,7 @@ export const MainScreen = () => {
     }
   }
 
-  const handleStartNewQuiz = () => {
+  const handleRestartNewQuiz = () => {
     if (isQuizCompleted && quizResponse?.results?.[0]) {
       const categoryName = quizResponse.results[0].category
 
@@ -168,7 +168,7 @@ export const MainScreen = () => {
       setConfetti(false)
       hasFetchedRef.current = false
       dispatch(resetStatistic())
-      dispatch(resetConfig())
+      // dispatch(resetConfig())
       qiuzFetch()
     }
   }
@@ -204,7 +204,7 @@ export const MainScreen = () => {
   if (isQuizCompleted) {
     content = (
       <QuizCompleted
-        onStartNewQuiz={handleStartNewQuiz}
+        onStartNewQuiz={handleRestartNewQuiz}
         onChoseQuit={handleConfirmQuit}
         questionsCount={ammountQuestions}
       />
